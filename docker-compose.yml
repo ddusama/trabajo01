@@ -9,7 +9,7 @@ services:
       - "5432:5432"
 
   app-books:
-    image: ddusama/app-book:1.0.0
+    image: jaimesalvador/app-book:1.0.0
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.app-book.rule=Host(`app-book`)"
