@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:12
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+
+  app-books:
+    image: ddusama/app-book:1.0.0
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app-book.rule=Host(`app-book`)"
+      - "traefik.http.routers.app-book.entrypoints=web"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=jdbc:postgresql://db:5432/postgres
+      - DATABASE_USER=postgres
+      - DATABASE_PASS=postgres
+    expose:
+      - 4040
+
+  app-authors:
+    image: ddusama/app-author:1.0.0
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app-author.rule=Host(`app-author`)"
+      - "traefik.http.routers.app-author.entrypoints=web"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=jdbc:postgresql://db:5432/postgres
+      - DATABASE_USER=postgres
+      - DATABASE_PASS=postgres
+    expose:
+      - 9090
+
+  app-web:
+    image: ddusama/app-web:1.0.0
+    depends_on:
+      - gateway
+    ports:
+      - "1010:4567"
+
+  gateway:
+    image: "traefik:v3.0"
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:7070"
+    ports:
+      - "7070:7070"
+      - "6060:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"

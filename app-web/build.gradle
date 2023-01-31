@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'com.distribuida'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // lombok
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    // spark
+    implementation 'com.sparkjava:spark-core:2.9.3'
+    // thymeleaf
+    implementation 'org.thymeleaf:thymeleaf:3.0.15.RELEASE'
+    // spark-thymeleaf
+    implementation 'com.sparkjava:spark-template-thymeleaf:2.7.1'
+   // marshalling
+    implementation 'org.jboss.resteasy:resteasy-jackson2-provider:6.2.2.Final'
+    // CDI
+    implementation 'org.jboss.weld.se:weld-se-core:5.0.0.SP1'
+    // log4j
+    implementation 'org.slf4j:slf4j-simple:1.7.21'
+    // JAX-RS
+    implementation group: 'org.jboss.resteasy', name: 'resteasy-client', version: '6.1.0.Final'
+    // fasterxml
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.3'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.13.3'
+    // spring
+    implementation 'org.springframework:spring-web:6.0.4'
+    implementation 'org.springframework:spring-context:6.0.4'
+    implementation 'org.springframework:spring-beans:6.0.4'
+    implementation group: 'org.springframework', name: 'spring-web', version: '5.3.21'
+
+}
+sourceSets {
+    main {
+        output.resourcesDir = file("${buildDir}/classes/java/main")
+    }
+}
